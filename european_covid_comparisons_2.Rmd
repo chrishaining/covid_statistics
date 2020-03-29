@@ -1,0 +1,111 @@
+---
+title: "European Covid Comparisons Part 2"
+output: html_notebook
+---
+
+This notebook continues the analysis I started in `european_covid_comparisons_1.Rmd`. In part 1 I wrangled the data and created a dataset of European countries' populations and gdp per capita. Part 2 will supplement this dataset with data on Covid-19 testing and deaths.
+
+Data on Covid deaths is taken from [World Health Organization Situation Reports](https://www.who.int/docs/default-source/coronaviruse/situation-reports/20200328-sitrep-68-covid-19.pdf?sfvrsn=384bc74c_2)
+
+
+## Import and inspect the dataset
+```{r}
+library(dplyr)
+library(readr)
+library(stringr)
+
+pop_and_gdp <-read_csv('european_pop_gdp_per_capita.csv')
+pop_and_gdp
+```
+
+## import covid-19 data from WHO stats
+Source: [Situation Report 68](https://www.who.int/docs/default-source/coronaviruse/situation-reports/20200328-sitrep-68-covid-19.pdf?sfvrsn=384bc74c_2), which collated data from national authorities submitted by 10:00 CET 28 March 2020.
+```{r}
+covid_deaths <- read_csv('european_covid_deaths_2020_28_mar.csv')
+covid_deaths
+```
+
+## Import data on Covid-19 testing
+This is going to be complicated. WHO does not produce statistics on this.
+```{r}
+covid_tests <- read_csv('european_covid_tests_2020_29_mar.csv')
+covid_tests
+```
+
+
+## combine the datasets
+```{r}
+master <- pop_and_gdp %>% bind_cols(covid_deaths) %>% bind_cols(covid_tests)
+master <- master %>% select(-Country1,-X11,-Country2,-X12)
+master
+```
+
+## Sort the data 
+```{r}
+sort_by_deaths <- master %>% arrange(desc(deaths))
+sort_by_deaths
+```
+
+## Visualise the data
+
+### a. Is there a correlation between GPD and testing?
+    
+```{r}
+library(ggplot2)
+library(scales)
+
+change_ireland <- master %>% mutate(tests=replace(as.numeric(tests), X1==c(15), c(17992)))
+change_spain <- change_ireland %>% mutate(tests=replace(as.numeric(tests), X1==c(27), c(355000)))
+change_sweden <- change_spain %>% mutate(tests=replace(as.numeric(tests), X1==c(28), c(24500)))
+numerics <- change_sweden %>% filter(tests!="not known")
+numerics
+#gdp_to_tests <- ggplot(master, aes(x=gdp_per_capita, y=tests)) + geom_line() 
+#gdp_to_tests
+
+gdp_to_tests <- ggplot(numerics,aes(x=gdp_per_capita)) + geom_point(aes(y=tests)) +  scale_y_continuous(labels=label_comma()) + labs(title="Plotting GDP per Capita and Number of Tests", x="GDP per Capita", y="Number of Tests")
+
+ gdp_to_tests 
+
+
+```
+
+###  b. Is there a correlation between testing and deaths?
+```{r}
+tests_deaths <- ggplot(numerics,aes(x=tests)) + geom_point(aes(y=deaths)) + scale_x_continuous(labels=label_comma()) + labs(title="Plotting Number of Tests and Number of Deaths", x="Number of Tests", y="Number of Deaths")
+
+tests_deaths
+```
+
+
+###  c. Is there a correlation between GDP and deaths?
+```{r}
+gdp_to_deaths <- ggplot(numerics,aes(x=gdp_per_capita)) + geom_point(aes(y=deaths)) +  scale_y_continuous(labels=label_comma()) + labs(title="Plotting GDP per Capita and Number of Deaths", x="GDP per Capita", y="Number of Deaths")
+
+ gdp_to_deaths
+
+```
+
+## Using rates for measuring deaths and tests
+Given the differences in population size, it could be misleading to compare the raw numbers of tests and deaths. It is expected that- other things being equal - larger populations will require more testing than smaller populations. So, I will calculate the per capita testing and death rates. Note these are linked to each country's total population, not the number of infected people.
+
+# Sources
+Where possible, data have been taken from official government websites. Where this was not possible, I have used a [Wikipedia page on Covid-19 testing](https://en.wikipedia.org/wiki/COVID-19_testing). 
+
+
+[Austria](https://www.sozialministerium.at/Informationen-zum-Coronavirus/Neuartiges-Coronavirus-(2019-nCov).html)
+
+[Bulgaria: Wikipedia page](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Bulgaria)
+[Cyprus](https://www.pio.gov.cy/coronavirus/en/index.html)
+[Hungary](https://koronavirus.gov.hu/)
+[Iceland](https://www.covid.is/tolulegar-upplysingar)
+[Lithuania](http://sam.lrv.lt/lt/naujienos/koronavirusas)
+[Norway](https://www.fhi.no/en/id/infectious-diseases/coronavirus/daily-reports/daily-reports-COVID19/)
+
+[Romania](https://www.mai.gov.ro/informare-covid-19-grupul-de-comunicare-strategica-29-martie-ora-13-00/)
+
+[Slovenia](https://www.korona.gov.sk/)
+
+[Sweden](https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/aktuellt-epidemiologiskt-lage/)
+
+
+

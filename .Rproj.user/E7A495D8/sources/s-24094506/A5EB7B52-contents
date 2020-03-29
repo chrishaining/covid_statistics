@@ -109,3 +109,13 @@ population_and_gdp <- population_and_gdp %>% select(-Country1)
 population_and_gdp
 ```
 
+## Filter by country
+For the purposes of this analysis, I want to compare "Western European" countries, broadly the European Union countries plus other countries in the single market. I'll also include the UK, which is still trading on EU terms. Note that Liechtenstein is not included, even though it is in the single market. This is because it was not included in the `population_and_gdp` dataset.
+```{r}
+# create a vector of countries in the single market (EU countries, plus EEA countries, plus UK and Switzerland)
+european_countries <- c("Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland", "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden", "Iceland", "Liechtenstein", "Norway", "Switzerland", "United Kingdom")
+
+european_table <- population_and_gdp %>% filter(Country %in% european_countries)
+european_table
+```
+

@@ -1,8 +1,0 @@
-"0","# create a table of populations"
-"0","populations <- parsed_gdp %>% filter(descriptor == ""Population"")"
-"0","populations <- populations %>% rename(population=""2019"")"
-"0","populations <- populations %>% mutate(population=as.numeric(population))"
-"2","NAs introduced by coercion"
-"0","populations <- populations %>% mutate(population=1000000*population)"
-"0","populations <- populations %>% select(-descriptor, -Scale)"
-"0","populations"

@@ -1,6 +1,0 @@
-"0","#wrangle the data "
-"0","parsed_gdp <- gdp %>% select(Country, ""Subject Descriptor"", Scale, ""2019"") "
-"0","#parsed_gdp <- parsed_gdp %>% filter(""Subject Descriptor""==""Gross domestic product per capita, current prices"")"
-"0","#parsed_gdp <- parsed_gdp %>% filter(""WEO Subject Code"" == ""LP"")"
-"0",""
-"0","head(parsed_gdp)"
