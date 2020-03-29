@@ -155,7 +155,40 @@ print(speech)}
 
 ```
 
+## Express the frequency as a "1 in XXXX" chance
+```{r}
+frequency <- function(population, deaths) {
+  return(population/deaths)
+}
 
+#for (row in 1:nrow(results_by_deaths)) {
+#freq <- frequency(results_by_deaths[row, "population"], results_by_deaths[row, "deaths"])
+#freq <- format(freq, big.mark = ",", digits=0, scientific = FALSE)
+#country <- results_by_deaths[row, "Country"]
+#speech <- str_glue("In {country}, 1 person in  {freq} has died of the virus.")
+#print(speech)}
+
+# Note that the for loop doesn't work for countries with zero deaths. It says that 1 person in Inf has died. Solution is to add an if statement to exclude 
+for (row in 1:nrow(results_by_deaths)) {
+  country <- results_by_deaths[row, "Country"]
+  if (results_by_deaths[row, "deaths"] > 0) {
+freq <- frequency(results_by_deaths[row, "population"], results_by_deaths[row, "deaths"])
+freq <- format(freq, big.mark = ",", digits=0, scientific = FALSE)
+
+speech <- str_glue("In {country}, 1 person in  {freq} has died of the virus.")
+print(speech)}
+  else {
+    nil_speech <- str_glue("No one has died in {country} yet, so no frequency can be determined.")
+    print(nil_speech)
+  }
+}
+
+# I learned how to format the numbers with commas, using big.mark
+
+```
+
+
+---
 # Sources
 Where possible, data have been taken from official government websites. Where this was not possible, I have used a [Wikipedia page on Covid-19 testing](https://en.wikipedia.org/wiki/COVID-19_testing). 
 
