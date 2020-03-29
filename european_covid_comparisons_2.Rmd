@@ -88,6 +88,64 @@ gdp_to_deaths <- ggplot(numerics,aes(x=gdp_per_capita)) + geom_point(aes(y=death
 ## Using rates for measuring deaths and tests
 Given the differences in population size, it could be misleading to compare the raw numbers of tests and deaths. It is expected that- other things being equal - larger populations will require more testing than smaller populations. So, I will calculate the per capita testing and death rates. Note these are linked to each country's total population, not the number of infected people.
 
+```{r}
+# add percent_tested
+# This is the percentage of the population that has been tested.
+#master <- master %>% mutate(tests=as.numeric(tests))
+
+results_by_tests <- numerics %>% mutate(percent_tested=(tests/population)*100)
+results_by_tests <- results_by_tests %>% mutate(percent_tested=format(percent_tested, digits=1))
+results_by_tests <- results_by_tests %>% arrange(desc(percent_tested))
+results_by_tests <- results_by_tests %>% mutate(percent_tested=as.numeric(percent_tested))
+results_by_tests
+
+```
+
+## Is there a correlation between gpd_per_capita and tests_per_capita?
+```{r}
+gdp_to_tests_per_capita <- ggplot(results_by_tests,aes(x=gdp_per_capita)) + geom_point(aes(y=percent_tested)) +  scale_y_continuous(labels=label_comma()) + labs(title="Plotting GDP per Capita and Percentage of People Tested", x="GDP per Capita", y="Percentage of population tested")
+gdp_to_tests_per_capita
+```
+
+
+```{r}
+# add risk of death (%)
+results_by_deaths <- results_by_tests %>% mutate(death_risk=(deaths/population)*100)
+results_by_deaths <- results_by_deaths %>% mutate(death_risk=format(death_risk, digits=1, scientific=FALSE))
+results_by_deaths <- results_by_deaths %>% arrange(desc(death_risk))
+results_by_deaths <- results_by_deaths %>% mutate(death_risk=as.numeric(death_risk))
+results_by_deaths
+
+# I learned how to format a number with scientific=FALSE - this trnasformed a number 9.0e-04 into something I can understand (0.015136)
+```
+
+```{r}
+gdp_to_death_risk <- ggplot(results_by_deaths,aes(x=gdp_per_capita)) + geom_point(aes(y=death_risk)) +  scale_y_continuous(labels=label_comma()) + labs(title="Plotting GDP per Capita and the Risk of Death", x="GDP per Capita", y="Risk of death (%)")
+gdp_to_death_risk
+```
+
+
+
+```{r}
+# Work out the natural frequency in a thousand. E.g. 3 people in every thousand will get a test. 
+# define the function
+frequency_in_a_thousand <- function(risk) {(risk/100)*1000}
+# plug in some numbers
+
+all_frequencies <- function() { 
+for (row in 1:nrow(results_by_deaths)) {
+freq <- frequency_in_a_thousand(row(results_by_deaths[row, "death_risk"]))
+str_glue("In {freq} people in every thousand will die of the virus.")
+}
+}
+
+all_frequencies()
+
+
+
+```
+
+
 # Sources
 Where possible, data have been taken from official government websites. Where this was not possible, I have used a [Wikipedia page on Covid-19 testing](https://en.wikipedia.org/wiki/COVID-19_testing). 
 
