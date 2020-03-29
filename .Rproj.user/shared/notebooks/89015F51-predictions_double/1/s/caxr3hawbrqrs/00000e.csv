@@ -1,0 +1,3 @@
+"0","full_predictor <- predictions_table %>% bind_rows(predictions_table_two)"
+"0","full_predictor <- full_predictor %>% arrange(date)"
+"0","full_predictor"

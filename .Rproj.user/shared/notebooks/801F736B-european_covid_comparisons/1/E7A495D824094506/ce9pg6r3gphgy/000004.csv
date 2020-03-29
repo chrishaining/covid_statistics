@@ -1,0 +1,3 @@
+"0","population_and_gdp <- populations %>% bind_cols((gdps))"
+"0","population_and_gdp <- population_and_gdp %>% select(-Country1)"
+"0","population_and_gdp"

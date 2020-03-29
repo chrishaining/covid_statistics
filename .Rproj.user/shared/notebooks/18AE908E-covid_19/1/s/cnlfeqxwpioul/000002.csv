@@ -1,0 +1,1 @@
+"0","ggplot(ukDataMelted, aes(x=new_date, y=value, col=variable)) + scale_x_discrete() + scale_y_discrete() + geom_line() + labs(title=""Estimated Number of Covid-19 Cases in the UK"")"

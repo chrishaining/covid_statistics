@@ -1,0 +1,5 @@
+"0","```r
+# update the actual_deaths of X1
+predictions <- predictions %>% mutate(actual_deaths=replace(as.numeric(actual_deaths), X1==1, 578))
+predictions
+```"

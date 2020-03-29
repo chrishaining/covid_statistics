@@ -1,0 +1,4 @@
+"0","# wrangle the data part 2: filtering "
+"0","# I initially had a problem with the filtering, due to the column names. So, first, change the problematic column names to single-word names."
+"0","parsed_gdp <- parsed_gdp %>% rename(descriptor=""Subject Descriptor"")"
+"0","parsed_gdp"

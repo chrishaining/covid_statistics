@@ -1,0 +1,47 @@
+"0","library(scales)"
+"2","
+Attaching package: ‘scales’
+
+"
+"2","The following object is masked from ‘package:readr’:
+
+    col_factor
+
+"
+"0","#revised_uk_data_two <- revised_uk_data_two %>% mutate(labels=label_number())"
+"0","revised_uk_line <- ggplot(revised_uk_data_two,aes(x=new_date)) + geom_line(aes(y=estimated_uk_cases_tenth)) + #geom_line(aes(y=estimated_uk_cases_half),color='steelblue') + "
+"0","#geom_line(aes(y=estimated_uk_cases_three),color='pink') + "
+"0","  geom_line(aes(y=estimated_uk_cases_one)) + geom_line(aes(y=estimated_uk_cases_two)) + scale_y_continuous(labels=label_comma())"
+"0","  labs(title=""Estimated Number of Covid-19 Cases in the UK"",x=""Date"",y=""Estimated Cases"") "
+"1","$x
+"
+"1","[1]"
+"1"," ""Date"""
+"1","
+"
+"1","
+"
+"1","$y
+"
+"1","[1]"
+"1"," ""Estimated Cases"""
+"1","
+"
+"1","
+"
+"1","$title
+"
+"1","[1]"
+"1"," ""Estimated Number of Covid-19 Cases in the UK"""
+"1","
+"
+"1","
+"
+"1","attr(,""class"")"
+"1","
+"
+"1","[1]"
+"1"," ""labels"""
+"1","
+"
+"0","revised_uk_line"

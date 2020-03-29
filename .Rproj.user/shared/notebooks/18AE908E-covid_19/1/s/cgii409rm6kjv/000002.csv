@@ -1,0 +1,2 @@
+"0","graph <- ggplot(uk_data_with_rate,aes(x=Date,y=daily_deaths_percent)) + geom_line() + labs(title=""Daily Increase in Covid-19 Deaths in the UK as % of total deaths"",x=""Data"",y=""Growth Rate (%)"")"
+"0","graph"

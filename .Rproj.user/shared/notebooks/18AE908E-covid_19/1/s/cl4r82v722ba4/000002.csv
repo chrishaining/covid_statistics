@@ -1,0 +1,5 @@
+"0",""
+"0","complex_uk_graph <- ggplot(uk_data,aes(x=Date)) + geom_line(aes(y=estimated_uk_cases_tenth),color='darkred') + geom_line(aes(y=estimated_uk_cases_half),color='steelblue') + geom_line(aes(y=estimated_uk_cases_one),color='green') + geom_line(aes(y=estimated_uk_cases_two),color='yellow') + "
+"0","geom_line(aes(y=estimated_uk_cases_three),color='pink') + "
+"0","  labs(title=""Estimated Daily Number of Covid-19 Cases in the UK"")"
+"0","complex_uk_graph"

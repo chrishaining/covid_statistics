@@ -1,0 +1,6 @@
+"0","```r
+# add a measure of the distance between actual_deaths and predicted_deaths
+predictions_with_distance <- predictions %>% mutate(distance_as_percent=((predicted_deaths-actual_deaths)/predicted_deaths)*100)
+predictions_with_distance <- predictions_with_distance %>% mutate(distance_as_percent=format(distance_as_percent, digits=2))
+predictions_with_distance
+```"

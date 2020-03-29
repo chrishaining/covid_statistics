@@ -1,0 +1,4 @@
+"0","complex_global_graph <- ggplot(global_data,aes(x=Date)) + geom_line(aes(y=estimated_global_cases_tenth),color='darkred') + geom_line(aes(y=estimated_global_cases_half),color='steelblue') + geom_line(aes(y=estimated_global_cases_one),color='green') + geom_line(aes(y=estimated_global_cases_two),color='yellow') + "
+"0","geom_line(aes(y=estimated_global_cases_three),color='pink') + "
+"0","  labs(title=""Estimated Daily Number of Covid-19 Cases: Global"")"
+"0","complex_global_graph"

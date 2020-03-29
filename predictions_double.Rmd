@@ -1,0 +1,92 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(stringr)
+library(readr)
+library(dplyr)
+```
+
+```{r}
+#predict first batch
+predictor <- function(start_value) {
+    predicted_value <- start_value * 2}
+twenty_eighth_march <- predictor(463)
+
+thirtieth_march <- predictor(twenty_eighth_march)
+
+first_april <- predictor(thirtieth_march)
+
+third_april <- predictor(first_april)
+
+fifth_april <- predictor(third_april)
+
+seventh_april <- predictor(fifth_april)
+
+ninth_april <- predictor(seventh_april)
+str_glue("Predicted deaths on 28th March {twenty_eighth_march}")
+str_glue("Predicted deaths on 30th March {thirtieth_march}")
+str_glue("Predicted deaths on 1st April {first_april}")
+str_glue("Predicted deaths on 3rd April {third_april}")
+str_glue("Predicted deaths on 5th April {fifth_april}")
+str_glue("Predicted deaths on 7th April {seventh_april}")
+str_glue("Predicted deaths on 9th April {ninth_april}")
+```
+
+
+```{r}
+predicted_deaths <- c(twenty_eighth_march, thirtieth_march, first_april, third_april, fifth_april, seventh_april, ninth_april)
+date <- as.Date(c('2020-03-28', '2020-03-30', '2020-04-01', '2020-04-03', '2020-04-05', '2020-04-07', '2020-04-09'))
+predictions_table <- data.frame(date, predicted_deaths)
+nil_results <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA")
+predictions_table <- predictions_table %>% mutate(actual_deaths=nil_results)
+predictions_table
+```
+
+```{r}
+#predict second batch
+
+twenty_seventh_march <- predictor(422)
+
+twenty_ninth_march <- predictor(twenty_seventh_march)
+
+thirty_first_march <- predictor(twenty_ninth_march)
+
+second_april <- predictor(thirty_first_march)
+
+fourth_april <- predictor(second_april)
+
+sixth_april <- predictor(fourth_april)
+
+eighth_april <- predictor(sixth_april)
+
+tenth_april <- predictor(eighth_april)
+str_glue("Predicted deaths on 27th March {twenty_seventh_march}")
+str_glue("Predicted deaths on 29th March {twenty_ninth_march}")
+str_glue("Predicted deaths on 31st March {thirty_first_march}")
+str_glue("Predicted deaths on 2nd April {second_april}")
+str_glue("Predicted deaths on 4th April {fourth_april}")
+str_glue("Predicted deaths on 6th April {sixth_april}")
+str_glue("Predicted deaths on 8th April {eighth_april}")
+str_glue("Predicted deaths on 10th April {tenth_april}")
+```
+
+```{r}
+predicted_deaths_odd <- c(twenty_seventh_march, twenty_ninth_march, thirty_first_march, second_april, fourth_april, sixth_april, eighth_april, tenth_april)
+date <- as.Date(c('2020-03-27', '2020-03-29', '2020-03-31', '2020-04-02', '2020-04-04', '2020-04-06', '2020-04-08', '2020-04-10'))
+predictions_table_two <- data.frame(date, predicted_deaths_odd)
+nil_results <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+predictions_table_two <- predictions_table_two %>% mutate(actual_deaths=nil_results)
+predictions_table_two <- predictions_table_two %>% rename(predicted_deaths=predicted_deaths_odd)
+predictions_table_two
+```
+
+```{r}
+full_predictor <- predictions_table %>% bind_rows(predictions_table_two)
+full_predictor <- full_predictor %>% arrange(date)
+full_predictor
+```
+

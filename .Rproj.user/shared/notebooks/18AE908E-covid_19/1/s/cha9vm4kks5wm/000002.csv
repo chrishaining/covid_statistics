@@ -1,0 +1,9 @@
+"0","deaths <- read_csv('covid_19_deaths.csv')"
+"2","Parsed with column specification:
+cols(
+  Date = [34mcol_date(format = """")[39m,
+  `UK Deaths` = [32mcol_double()[39m,
+  `Global Deaths` = [32mcol_double()[39m
+)
+"
+"0","deaths"

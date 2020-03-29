@@ -1,0 +1,14 @@
+"0","library(reshape2)"
+"2","
+Attaching package: ‘reshape2’
+
+"
+"2","The following object is masked from ‘package:tidyr’:
+
+    smiths
+
+"
+"0","parsed_uk_data <- revised_uk_data_two %>% select(-Date,-cumulative_deaths,-new_deaths,-estimated_uk_cases_half,-estimated_uk_cases_three)"
+"0",""
+"0","ukDataMelted <- reshape2::melt(parsed_uk_data, id.var='new_date')"
+"0","head(ukDataMelted)"

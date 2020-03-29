@@ -1,0 +1,3 @@
+"0","predictions <- predictions %>% mutate(actual_deaths=as.numeric(actual_deaths))"
+"2","NAs introduced by coercion"
+"0","predictions"

@@ -1,0 +1,4 @@
+"0","#calculate true growth rate - I'm not sure that my formula is correct"
+"0","predictions_with_true_growth_rate <- predictions_with_distance %>% mutate(true_growth_rate=(1+(actual_deaths-463)/463))"
+"0","predictions_with_true_growth_rate <- predictions_with_true_growth_rate %>% mutate(true_growth_rate=format(true_growth_rate, digits=2))"
+"0","predictions_with_true_growth_rate"

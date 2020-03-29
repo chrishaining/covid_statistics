@@ -1,0 +1,2 @@
+"0","#filtered_gdp <- parsed_gdp %>% filter(descriptor == ""Population"" || descriptor==""Gross domestic product per capita, current prices"")"
+"0","#filtered_gdp"

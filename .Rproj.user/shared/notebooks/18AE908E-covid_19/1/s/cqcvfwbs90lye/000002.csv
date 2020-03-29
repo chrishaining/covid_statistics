@@ -1,0 +1,3 @@
+"0","#create new datasets that mutate the date to two weeks previous."
+"0","revised_uk_data <- uk_data %>% mutate(new_date=Date-days(14))"
+"0","revised_uk_data"

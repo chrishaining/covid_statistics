@@ -1,0 +1,3 @@
+"0","library(ggplot2)"
+"0","growth_line <- ggplot(predictions_with_true_growth_rate, aes(x=date)) + geom_line(aes(y=predicted_deaths)) "
+"0","growth_line"

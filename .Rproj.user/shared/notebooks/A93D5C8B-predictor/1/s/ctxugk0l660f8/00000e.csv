@@ -1,0 +1,8 @@
+"0","# for comparison, log the known rate"
+"0","known_cases <- read.csv('covid_19_deaths.csv')"
+"0","known_cases <- known_cases %>% select(-Global.Deaths)"
+"0","known_cases <- known_cases %>% mutate(new_deaths=c(UK.Deaths[1], diff(UK.Deaths)))"
+"0","known_cases <- known_cases %>% mutate(rate=1+new_deaths/lag(UK.Deaths))"
+"0","known_cases <- known_cases %>% mutate(rate=format(rate, digits = 2))"
+"0",""
+"0","known_cases"

@@ -1,0 +1,6 @@
+"0","predicted_deaths <- c(twenty_seventh_march, twenty_eighth_march, twenty_ninth_march, thirtieth_march, thirty_first_march, first_april, second_april, third_april)"
+"0","date <- as.Date(c('2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', '2020-04-01', '2020-04-02', '2020-04-03'))"
+"0","predictions_table <- data.frame(date, predicted_deaths)"
+"0","nil_results <- c(""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"")"
+"0","predictions_table <- predictions_table %>% mutate(actual_deaths=nil_results)"
+"0","predictions_table"

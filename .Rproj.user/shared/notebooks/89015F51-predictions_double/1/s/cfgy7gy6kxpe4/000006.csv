@@ -1,0 +1,7 @@
+"0","predicted_deaths_odd <- c(twenty_seventh_march, twenty_ninth_march, thirty_first_march, second_april, fourth_april, sixth_april, eighth_april, tenth_april)"
+"0","date <- as.Date(c('2020-03-27', '2020-03-29', '2020-03-31', '2020-04-02', '2020-04-04', '2020-04-06', '2020-04-08', '2020-04-10'))"
+"0","predictions_table_two <- data.frame(date, predicted_deaths_odd)"
+"0","nil_results <- c(""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"")"
+"0","predictions_table_two <- predictions_table_two %>% mutate(actual_deaths=nil_results)"
+"0","predictions_table_two <- predictions_table_two %>% rename(predicted_deaths=predicted_deaths_odd)"
+"0","predictions_table_two"

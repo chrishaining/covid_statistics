@@ -1,0 +1,5 @@
+"0","```r
+# change actual_deaths to numeric
+predictions <- predictions %>% mutate(actual_deaths=as.numeric(actual_deaths))
+predictions
+```"

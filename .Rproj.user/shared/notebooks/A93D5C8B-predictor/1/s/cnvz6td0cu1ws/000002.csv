@@ -1,0 +1,2 @@
+"0","# 26th isn't a prediction - it's known. So, delete this row"
+"0","predictions <- predictions %>% filter(date!=""2020-03-26"")"

@@ -1,0 +1,14 @@
+"0","```r
+predictions <- read_csv('predictions.csv')
+```"
+"1","Missing column names filled in: 'X1' [1]Parsed with column specification:
+cols(
+  X1 = [32mcol_double()[39m,
+  date = [34mcol_date(format = \"\")[39m,
+  predicted_deaths = [32mcol_double()[39m,
+  actual_deaths = [33mcol_logical()[39m
+)
+"
+"0","```r
+predictions
+```"

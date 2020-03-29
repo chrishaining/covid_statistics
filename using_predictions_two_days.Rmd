@@ -1,0 +1,84 @@
+---
+title: "Using the Predictor: Daily Growth Rate of 1.5"
+output: html_notebook
+---
+This code uses the file `predictions.csv` created in `create_predictions.Rmd`. 
+
+## My hypothesis:
+Deaths are increasing at a daily rate of 1.5. That is, each day, the cumulative number of deaths increases by a half. 
+
+## How will I test this?
+* Compare the value in predicted_deaths with actual_deaths. The figure of actual_deaths is taken from the World Health Organization's [daily situation reports](https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports/) on the number of deaths. 
+
+## What would constitute failure of the hypothesis?
+I'm not expecting the daily rate to be exactly 1.5, but if the predicted_deaths values are more than 10% greater/lower than actual_deaths values, that would indicate the hypothesis is incorrect. However, it is expected that more data will allow me to amend my hypothesis.
+
+
+```{r}
+library(stringr)
+library(readr)
+library(dplyr)
+```
+
+```{r}
+predictor <- function(start_value, daily_rate, days) {
+    predicted_value <- start_value * daily_rate * days}
+twenty_seventh_march <- predictor(463, 1.5, 1)
+twenty_eighth_march <- predictor(463, 1.5, 2)
+twenty_ninth_march <- predictor(463, 1.5, 3)
+thirtieth_march <- predictor(463, 1.5, 4)
+thirty_first_march <- predictor(463, 1.5, 5)
+first_april <- predictor(463, 1.5, 6)
+second_april <- predictor(463, 1.5, 7)
+third_april <- predictor(463, 1.5, 8)
+ninth_april <- predictor(463, 1.5, 14)
+str_glue("Predicted deaths on 27th March {twenty_seventh_march}")
+str_glue("Predicted deaths on 28th March {twenty_eighth_march}")
+str_glue("Predicted deaths on 29th March {twenty_ninth_march}")
+str_glue("Predicted deaths on 2nd April {second_april}")
+str_glue("Predicted deaths on 9th April {ninth_april}")
+```
+
+```{r}
+predicted_deaths <- c(twenty_seventh_march, twenty_eighth_march, twenty_ninth_march, thirtieth_march, thirty_first_march, first_april, second_april, third_april)
+date <- as.Date(c('2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', '2020-04-01', '2020-04-02', '2020-04-03'))
+predictions <- data.frame(date, predicted_deaths)
+nil_results <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+predictions <- predictions %>% mutate(actual_deaths=nil_results)
+predictions
+```
+
+
+```{r}
+predictions <- predictions %>% mutate(actual_deaths=as.numeric(actual_deaths))
+predictions
+```
+
+```{r}
+# update the actual_deaths of 2020-03-27
+predictions <- predictions %>% mutate(actual_deaths=replace(as.numeric(actual_deaths), date=="2020-03-27", 578))
+predictions
+```
+
+```{r}
+# add a measure of the distance between actual_deaths and predicted_deaths
+predictions_with_distance <- predictions %>% mutate(distance_as_percent=((predicted_deaths-actual_deaths)/predicted_deaths)*100)
+predictions_with_distance <- predictions_with_distance %>% mutate(distance_as_percent=format(distance_as_percent, digits=2))
+predictions_with_distance
+```
+
+```{r}
+#calculate true growth rate - I'm not sure that my formula is correct
+predictions_with_true_growth_rate <- predictions_with_distance %>% mutate(true_growth_rate=(1+(actual_deaths-463)/463))
+predictions_with_true_growth_rate <- predictions_with_true_growth_rate %>% mutate(true_growth_rate=format(true_growth_rate, digits=2))
+predictions_with_true_growth_rate
+```
+
+```{r}
+library(ggplot2)
+growth_line <- ggplot(predictions_with_true_growth_rate, aes(x=date)) + geom_line(aes(y=predicted_deaths)) 
+growth_line
+```
+
+
+

@@ -1,0 +1,2 @@
+"0","uk_data <- cases_complex %>% select(Date, uk_deaths, estimated_uk_cases_tenth, estimated_uk_cases_half, estimated_uk_cases_one, estimated_uk_cases_two, estimated_uk_cases_three)"
+"0","uk_data"

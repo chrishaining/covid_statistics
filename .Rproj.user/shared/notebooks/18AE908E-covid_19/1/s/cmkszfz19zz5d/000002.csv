@@ -1,0 +1,3 @@
+"0","library(ggplot2)"
+"0","graph <- ggplot(cases,aes(x=Date,y=estimated_uk_cases)) + geom_line() + labs(title=""Estimated Daily Number of Covid-19 Cases in the UK"")"
+"0","graph"

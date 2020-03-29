@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1585484956505.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A5EB7B52",
+    "lastKnownWriteTime" : 1585490891,
+    "last_content_update" : 1585491198398,
+    "path" : "~/Desktop/Covid-19/european_covid_comparisons.Rmd",
+    "project_path" : "european_covid_comparisons.Rmd",
+    "properties" : {
+        "chunk_output_type" : "inline",
+        "cursorPosition" : "107,61",
+        "scrollLine" : "100",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

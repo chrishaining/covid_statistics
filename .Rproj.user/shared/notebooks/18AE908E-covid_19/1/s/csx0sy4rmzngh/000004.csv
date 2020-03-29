@@ -1,0 +1,3 @@
+"0",""
+"0","global_data <- cases_complex %>% select(Date, global_deaths, estimated_global_cases_tenth, estimated_global_cases_half, estimated_global_cases_one, estimated_global_cases_two, estimated_global_cases_three)"
+"0","global_data"
