@@ -111,7 +111,7 @@ gdp_to_tests_per_capita
 ```{r}
 # add risk of death (%)
 results_by_deaths <- results_by_tests %>% mutate(death_risk=(deaths/population)*100)
-results_by_deaths <- results_by_deaths %>% mutate(death_risk=format(death_risk, digits=1, scientific=FALSE))
+results_by_deaths <- results_by_deaths %>% mutate(death_risk=format(death_risk, digits=2, scientific=FALSE))
 results_by_deaths <- results_by_deaths %>% arrange(desc(death_risk))
 results_by_deaths <- results_by_deaths %>% mutate(death_risk=as.numeric(death_risk))
 results_by_deaths
@@ -132,16 +132,26 @@ gdp_to_death_risk
 frequency_in_a_thousand <- function(risk) {(risk/100)*1000}
 # plug in some numbers
 
-all_frequencies <- function() { 
+#all_frequencies <- function() { 
+#for (row in 1:nrow(results_by_deaths)) {
+#freq <- frequency_in_a_thousand(results_by_deaths[row, "death_risk"])
+#country <- results_by_deaths[row, "Country"]
+#speech <- str_glue("In {country}, {freq} people in every thousand have died of the virus.")
+#print(speech)}
+#  return()
+#}
+
+#bob <- all_frequencies()
+#bob
+# so, this function works, but it adds an unwanted NULL line. I'll try it without the wrapper function.
+ 
 for (row in 1:nrow(results_by_deaths)) {
-freq <- frequency_in_a_thousand(row(results_by_deaths[row, "death_risk"]))
-str_glue("In {freq} people in every thousand will die of the virus.")
-}
-}
-
-all_frequencies()
-
-
+freq <- frequency_in_a_thousand(results_by_deaths[row, "death_risk"])
+country <- results_by_deaths[row, "Country"]
+speech <- str_glue("In {country}, {freq} people in every thousand have died of the virus.")
+print(speech)}
+ 
+#Note a problem with the frequency of Czech Republic, Croatia, Poland and Bulgaria. The format is "8e-04". The cause was the format of death_risk. If digits=1, the format is incorrect, but if I change it to 2, the format is correct.
 
 ```
 
