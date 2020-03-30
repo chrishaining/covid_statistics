@@ -1,4 +1,4 @@
 "0","#add actual number"
-"0","empty <- c(""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"")"
+"0","empty <- c(""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"", ""NA"")"
 "0","predictions <- predictions %>% mutate('Actual Deaths'=empty)"
 "0","predictions"

@@ -1,6 +1,10 @@
 "0","library(stringr)"
 "0","library(readr)"
 "0","library(dplyr)"
+"2","Registered S3 method overwritten by 'dplyr':
+  method           from
+  print.rowwise_df     
+"
 "2","
 Attaching package: ‘dplyr’
 
