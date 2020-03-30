@@ -86,6 +86,8 @@ predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual
 predictions
 
 ```
+Note that the figures here may seem to be a day behind the figures in the media. This is because the figures in the table are based on the WHO's situation reports, which are produced the day after the UK announces its figures. For instance, where I give predictions for 2020-03-31 of 1413-1695.6, the UK government announced the relevant figure on 2020-03-30. Even these figures are delayed: the figure that the UK announced on 2020-03-30 reflected the situation at 0900 on 2020-03-29.
+[Department of Health and Social Care](https://twitter.com/DHSCgovuk/status/1244651132879806471?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1244651132879806471&ref_url=https%3A%2F%2Fwww.theguardian.com%2Fpolitics%2Flive%2F2020%2Fmar%2F30%2Fuk-coronavirus-live-rate-infection-lockdown-covid-19)
 
 ```{r}
 # work out actual growth rate
