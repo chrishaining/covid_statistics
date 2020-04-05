@@ -116,4 +116,3 @@ XKCD mocks this concept in a comic testing the link between jelly beans and acne
 
 Summary
 In this lesson we covered what experimental design is and why good experimental design matters. We then looked in depth to the principles of experimental design and defined some of the common terms you need to consider when designing an experiment. Next, we detoured a bit to see how you should share your data and code for analysis. And finally, we looked at the dangers of p-hacking and manipulating data to achieve significance.
-

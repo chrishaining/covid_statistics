@@ -1,0 +1,29 @@
+---
+title: "UK Daily Deaths"
+output: html_notebook
+---
+
+This notebook displays the number of daily UK deaths in a bar chart.
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+data <- read_csv('covid_19_deaths.csv')
+```
+
+## Inspect and clean the data
+```{r}
+#data <- data %>% rename(deaths=`UK Deaths`)
+ukDailyDeaths <- data %>% mutate(`New Deaths`=c(`UK Deaths`[1], diff(`UK Deaths`)))
+ukDailyDeaths <- ukDailyDeaths %>% select(-`Global Deaths`)
+ukDailyDeaths
+```
+
+
+## Create a bar chart
+```{r}
+dailyDeathsChart <- ggplot(ukDailyDeaths, aes(x=`Date`, y=`New Deaths`)) + geom_col(fill='steelblue') + geom_text(aes(label=`New Deaths`), vjust=1.6, color="white", size=2.5) + theme_minimal()
+dailyDeathsChart
+```
+

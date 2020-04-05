@@ -37,14 +37,22 @@ two_april <- predictor(one_april)
 three_april <- predictor(two_april)
 four_april <- predictor(three_april)
 five_april <- predictor(four_april)
+six_april <- predictor(five_april)
+seven_april <- predictor(six_april)
+eight_april <- predictor(seven_april)
+nine_april <- predictor(eight_april)
+ten_april <- predictor(nine_april)
+eleven_april <- predictor(ten_april)
+twelve_april <- predictor(eleven_april)
+
 #
 
 ```
 
 ```{r}
 
-date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05"))
-predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april)
+date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
+predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april, six_april, seven_april, eight_april, nine_april, ten_april, eleven_april, twelve_april)
 predictions <- data.frame(date, predicted_deaths)
 
 #predictions <- predictions %>% mutate(predicted_deaths=replace(as.numeric(predicted_deaths), date=="2020-03-27", 578))
@@ -81,7 +89,7 @@ Actual Deaths: this is the number confirmed by the World Health Organization, ba
 Note that the number of deaths registered on a given date may not accurately reflect the number who died. There could be backlogs in the registration system. However, I am assuming that this inaccuracy evens out in the long run.  
 ```{r}
 #add data to actual deaths
-predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c( "2020-03-27", "2020-03-28", "2020-03-29"), c(578,759, 1019)))
+predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606)))
 
 predictions
 
@@ -107,9 +115,40 @@ predictions <- predictions %>% mutate(new_deaths=c(deaths[1], diff(deaths)))
 predictions <- predictions %>% mutate(rate=1+new_deaths/lag(deaths))
 predictions <- predictions %>% mutate(rate=format(rate, digits = 2))
 #predictions <- predictions %>% mutate(rate=c(1+new_deaths[1]/deaths))
-
+predictions <- predictions %>% mutate(new_deaths=replace(as.numeric(new_deaths), date=="2020-03-27", NA))
 predictions
 ```
+
+```{r}
+library(lubridate)
+#average growth rate (cumulative, from 2020-03-28 to most recent stats)
+predictions <- predictions %>% mutate(rate=as.numeric(rate))
+excludes_first_row <- predictions %>% filter(date!="2020-03-27")
+cumulative <- excludes_first_row %>% filter(date < today())
+
+cumulative_mean_growth_rate <- cumulative %>% summarize(mean(rate))
+str_glue("Cumulative mean growth rate starting 28th March: {cumulative_mean_growth_rate}")
+
+#average growth rate (last five days) I'd like to automate this, but for now I will make a new variable every day
+#over time, I expect to see the mean for the last five days fall. 
+last_five_days <- cumulative %>% filter(date >"2020-03-28")
+#last_five_days
+last_five_days_mean_growth_rate <- last_five_days %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (28th March-2nd April): {last_five_days_mean_growth_rate}")
+
+five_days_to_third_april <- last_five_days %>% filter(date > "2020-03-29")
+five_days_to_third_april_mean_growth_rate <- five_days_to_third_april %>% summarize(mean(rate))
+
+str_glue("Last five days mean growth rate (29th March-3rd April): {five_days_to_third_april_mean_growth_rate}")
+
+#five_days_to_fourth_april <- last_five_days %>% filter(date > "2020-03-30")
+#five_days_to_fourth_april_mean_growth_rate <- five_days_to_fourth_april %>% summarize(mean(rate))
+
+#str_glue("Last five days mean growth rate (30th March-4th April): {five_days_to_fourth_april_mean_growth_rate}")
+
+```
+
+
 
 ```{r}
 # for comparison, log the known daily growth rate

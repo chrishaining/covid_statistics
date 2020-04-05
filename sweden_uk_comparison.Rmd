@@ -1,0 +1,109 @@
+---
+title: "Comparison of UK and Sweden"
+output: html_notebook
+---
+
+ 
+
+```{r}
+library(stringr)
+library(dplyr)
+library(readr)
+```
+
+## Import the swedish dataset and add a column for deaths as a percentage of the population
+```{r}
+swedish_population <- 10322000
+
+sweden <- read.csv("covid_19_sweden_stats.csv")
+sweden <- sweden %>% mutate(sweden_death_rate=format(100*(Deaths/swedish_population), scientific=FALSE))
+
+sweden
+```
+
+## Import the UK dataset and add a column for deaths as a percentage of the population
+```{r}
+uk_population <- 66867000
+uk <- read_csv("covid_19_deaths.csv")
+uk <- uk %>% select(-`Global Deaths`)
+uk <- uk %>% rename(deaths='UK Deaths')
+uk <- uk %>% mutate(uk_death_rate=format(100*(deaths/uk_population), scientific=FALSE))
+uk
+```
+
+## Merge the datasets and compare
+```{r}
+uk_sweden <- sweden %>% bind_cols(uk)
+uk_sweden <- uk_sweden %>% select(Date, sweden_death_rate, uk_death_rate)
+uk_sweden <- uk_sweden %>% mutate(sweden_death_rate=as.numeric(sweden_death_rate), uk_death_rate=as.numeric(uk_death_rate))
+
+uk_sweden <- uk_sweden %>% mutate(comparison=uk_death_rate/sweden_death_rate)
+uk_sweden <- uk_sweden %>% mutate(sweden_death_rate=format(sweden_death_rate, scientific=FALSE), uk_death_rate=format(uk_death_rate, scientific=FALSE))
+uk_sweden
+
+
+```
+The comparison column shows how much bigger the uk_death_rate is than the sweden_death_rate. So, if the comparison column is 1.534228, then the uk_death_rate is just over 53% higher than the sweden_death_rate.
+
+```{r}
+#calculate the average death rates (mean and median - the values are too specific for the mode to be useful
+
+#mean
+swedish_mean_death_rate <- uk_sweden %>% summarize(mean(as.numeric(sweden_death_rate)))
+str_glue("Swedish mean death rate: {swedish_mean_death_rate}")
+
+uk_mean_death_rate <- uk_sweden %>% summarize(mean(as.numeric(uk_death_rate)))
+str_glue("UK mean death rate: {uk_mean_death_rate}")
+
+mean_comparison <- uk_mean_death_rate/swedish_mean_death_rate
+str_glue("When comparing mean death rates, the UK death rate is {mean_comparison} times the Swedish death rate.")
+
+#median
+swedish_median_death_rate <- uk_sweden %>% summarize(median(as.numeric(sweden_death_rate)))
+uk_median_death_rate <- uk_sweden %>% summarize(median(as.numeric(uk_death_rate)))
+median_comparison <- uk_median_death_rate/swedish_median_death_rate
+swedish_median_death_rate <- format(swedish_median_death_rate, scientific=FALSE)
+uk_median_death_rate <- format(uk_median_death_rate, scientific=FALSE)
+str_glue("Swedish median death rate: {swedish_median_death_rate}")
+
+
+str_glue("UK median death rate: {uk_median_death_rate}")
+
+
+str_glue("When comparing median death rates, the UK death rate is {median_comparison} times the Swedish death rate.")
+
+
+
+
+
+
+```
+
+
+## Plot the comparison 
+```{r}
+library(ggplot2)
+library(tidyr)
+install.packages("tidyverse")
+library("tidyverse")
+library(scales)
+df <- uk_sweden %>% gather(key = "variable", value = "value", -Date)
+#head(df)
+ggplot(df, aes(x = Date, y = value)) + 
+  geom_line(aes(color = variable, linetype = variable)) + 
+  scale_color_manual(values = c("darkred", "steelblue"))
+
+#comparison_line <- ggplot(df, aes(x=Date)) + geom_line(aes(y=sweden_death_rate), color="blue") + geom_line(aes(y=uk_death_rate), color='red') + geom_text(aes(x=as.Date("2020-03-01"), y=0.00000000000, label="Sweden")) + geom_text(aes(x=as.Date("2020-03-25"), y=0.0022, label="UK"))
+#comparison_line
+
+#psavert_label <- "PSAVERT"
+#uempmed_label <- "UEMPMED"
+#ggplot(economics, aes(x=date)) + 
+#  geom_line(aes(y = psavert), color = "darkred") +
+#geom_line(aes(y = uempmed), color="steelblue", linetype="twodash") + geom_text(aes(x=as.Date("1968-10-01"), y = 15, label=psavert_label)) + #geom_text(aes(x=as.Date("2013-10-01"), y = 25, label=uempmed_label)) + labs(title="US Personal Savings Rate and Median Weeks Unemployed, #1967-2015")
+
+
+```
+
+
+

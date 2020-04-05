@@ -1,0 +1,212 @@
+---
+title: "Calculating the Number of Infections"
+output: html_notebook
+---
+
+This notebook is based on `covid_19.Rmd`. I created the present notebook because there was already too much information in `covid_19.Rmd`.
+
+## Methodology
+We know the number of people dead. 
+We have estimates of how many people die from the disease.
+
+
+## 1. Import files and packages
+```{r}
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(readr)
+library(lubridate)
+deaths <- read_csv('covid_19_deaths.csv')
+```
+
+
+## 2. inspect and clean the data
+```{r}
+
+deaths <- deaths %>% mutate(infection_date=Date-days(14))
+deaths <- deaths %>% rename(death_date=Date, deaths=`UK Deaths`)
+uk_data <- deaths %>% select(-`Global Deaths`)
+head(uk_data)
+```
+
+
+## 3. Add estimates of infections (three columns, showing a low, middle and a high estimate)
+```{r}
+#add columns for various estimated death rates (0.1%, 0.5%, 1%, 2%, 3%)
+
+uk_data <- uk_data %>% mutate(estimated_uk_cases_tenth=(deaths*1000))
+uk_data <- uk_data %>% mutate(estimated_uk_cases_one=(deaths*100))
+uk_data <- uk_data %>% mutate(estimated_uk_cases_two=(deaths*50))
+uk_data
+
+```
+
+
+## 4. clean the data again (reorder the columns)
+```{r}
+# order should be two, one, tenth (as this shows the min-max range better)
+```
+
+
+## 5. create a new table that starts at 22nd March (since `uk_data` ends on 21st March)
+```{r}
+# using only estimates of 1% death rate and growth rate of doubling every 3-4 days (which means quadrupling in a week)
+
+predictor <- function(previous_value) {
+    predicted_value <- previous_value * 1.25
+    return(predicted_value)
+    }
+
+# create predictions for each date
+twentyTwoMarch <- 1.25 * 360500
+twentyThreeMarch <- predictor(twentyTwoMarch)
+twentyFourMarch <- predictor(twentyThreeMarch)
+twentyFiveMarch <- predictor(twentyFourMarch)
+twentySixMarch <- predictor(twentyFiveMarch)
+twentySevenMarch <- predictor(twentySixMarch)
+twentyEightMarch <- predictor(twentySevenMarch)
+twentyNineMarch <- predictor(twentyEightMarch)
+thirtyMarch <- predictor(twentyNineMarch)
+thirtyOneMarch <- predictor(thirtyMarch)
+oneApril <- predictor(thirtyOneMarch)
+twoApril <- predictor(oneApril)
+threeApril <- predictor(twoApril)
+fourApril <- predictor(threeApril)
+fiveApril <- predictor(fourApril)
+sixApril <- predictor(fiveApril)
+sevenApril <- predictor(sixApril)
+eightApril <- predictor(sevenApril)
+nineApril <- predictor(eightApril)
+tenApril <- predictor(nineApril)
+elevenApril <- predictor(tenApril)
+twelveApril <- predictor(elevenApril)
+
+
+
+
+# create vectors to populate the columns
+date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
+estimated_infections_no_action <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril)
+
+# create the data frame
+predicted_infections <- data.frame(date, estimated_infections_no_action)
+
+# tidy the estimated_infections column
+#predicted_infections <- predicted_infections %>% mutate(estimated_infections=format(estimated_infections, big.mark = ","))
+
+# inspect the data frame
+predicted_infections
+```
+
+## 6. Create another dataframe to estimate the impact of social distancing on the estimate
+```{r}
+# create a function that uses a growth rate of 1.125 - half of the 25%. This is the estimate for the not-yet-lockdown that existed up to 23rd March. So, the estimate assumes that the social distancing measures reduced the infection rate by a half.
+half_predictor <- function(previous_value) {
+    predicted_value <- previous_value * 1.125
+    return(predicted_value)
+}
+
+# create a function that uses a growth rate of 1.0625 - quarter of the 25%. This is the estimated impact of the lockdown implemented by the UK government on 23rd March (but since the lockdown was announced in the evening, and it would take a full day for its effects to be felt in statistics, I will assume that its effects began on 25th March).
+lockdown_predictor <- function(previous_value) {
+  predicted_value <- previous_value * 1.0625
+  return(predicted_value)
+}
+
+# create predictions for each date
+twentyTwoMarch <- 1.125 * 360500
+twentyThreeMarch <- half_predictor(twentyTwoMarch)
+twentyFourMarch <- half_predictor(twentyThreeMarch)
+twentyFiveMarch <- lockdown_predictor(twentyFourMarch)
+twentySixMarch <- lockdown_predictor(twentyFiveMarch)
+twentySevenMarch <- lockdown_predictor(twentySixMarch)
+twentyEightMarch <- lockdown_predictor(twentySevenMarch)
+twentyNineMarch <- lockdown_predictor(twentyEightMarch)
+thirtyMarch <- lockdown_predictor(twentyNineMarch)
+thirtyOneMarch <- lockdown_predictor(thirtyMarch)
+oneApril <- lockdown_predictor(thirtyOneMarch)
+twoApril <- lockdown_predictor(oneApril)
+threeApril <- lockdown_predictor(twoApril)
+fourApril <- lockdown_predictor(threeApril)
+fiveApril <- lockdown_predictor(fourApril)
+sixApril <- lockdown_predictor(fiveApril)
+sevenApril <- lockdown_predictor(sixApril)
+eightApril <- lockdown_predictor(sevenApril)
+nineApril <- lockdown_predictor(eightApril)
+tenApril <- lockdown_predictor(nineApril)
+elevenApril <- lockdown_predictor(tenApril)
+twelveApril <- lockdown_predictor(elevenApril)
+
+
+
+
+# create vectors to populate the columns
+date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
+lockdown_infections <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril)
+
+# create the data frame
+lockdown_infection_rates <- data.frame(date, lockdown_infections)
+
+# tidy the estimated_infections column
+#lockdown_infection_rates <- lockdown_infection_rates %>% mutate(lockdown_infections=format(lockdown_infections, scientific = FALSE))
+
+# inspect the data frame
+lockdown_infection_rates
+
+```
+
+ ## 7. Merge the two prediction dataframes
+```{r}
+compared_infections <- predicted_infections %>% bind_cols(lockdown_infections=lockdown_infection_rates$lockdown_infections)
+
+compared_infections
+
+```
+
+## 8. Tidy the data
+```{r}
+#compared_infections <- compared_infections %>% mutate(estimated_infections=format(estimated_infections, big.mark = ","))
+#compared_infections <- compared_infections %>% mutate(lockdown_infections=as.numeric(lockdown_infections))
+#compared_infections <- compared_infections %>% mutate(lockdown_infections=format(lockdown_infections, big.mark = ","))
+compared_infections
+```
+
+The above table shows a huge possible effect of lockdown, but still the number of infections is in seven figures. However, this does not indicate how many people might be infected at any given time. Rather, it estimates how many people might have been infected in total, and so includes people who no longer have the disease (that is, people who have recovered or died).
+
+## 9. Predicted deaths based on these estimates
+Working backwards from these estimates, compare the predicted deaths. 
+```{r}
+# first, put the columns back to numeric format
+#compared_infections_and_deaths <- compared_infections %>% mutate(estimated_infections=as.numeric(estimated_infections))
+
+compared_infections_and_deaths <- compared_infections %>% mutate(estimated_deaths_no_action=0.01*estimated_infections)
+compared_infections_and_deaths <- compared_infections_and_deaths %>% mutate(estimated_deaths_lockdown=0.01*lockdown_infections)
+compared_infections_and_deaths
+```
+Note that the `estimates_deaths` and `estimated_deaths_lockdown` columns are not estimates for deaths on or up to the date in the relevant row. It is anticipated that deaths would occur some days or weeks after the date given in the table. For example, if the row for 2020-04-01 shows `estimated_deaths_lockdown` of 8336.703, that doesn't mean 8336.703 people would have died by 2020-04-01. Rather, that figure would occur around two weeks after 2020-04-01 (so, approximately 2020-04-15). So, this suggests an additional column might be useful (date of predicted deaths)
+ymd('2019-12-01') %m+% period("1 month")
+
+```{r}
+compared_infections_and_deaths_dates <- compared_infections_and_deaths %>% mutate(death_date_14_days=as.Date(date + days(14)))
+compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(death_date_7_days=as.Date(date + days(7)))
+
+# add a column to review the results on a daily basis.
+assess <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(fourteen_day_assessment = assess)
+
+compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(fourteen_day_assessment=replace(fourteen_day_assessment, death_date_14_days==c("2020-04-05"), c("As of 2020-04-05, the actual death toll was 4313")))
+
+#reorder the columns
+new_order <- c("date", "estimated_infections_no_action", "lockdown_infections", "estimated_deaths_no_action",  "estimated_deaths_lockdown", "death_date_14_days", "fourteen_day_assessment", "death_date_7_days")
+
+compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates[, new_order]
+
+#names <- colnames(compared_infections_and_deaths_dates)
+#names
+compared_infections_and_deaths_dates
+```
+
+In what ways could these estimates and predictions go wrong? Or, what parts of the data could be inaccurate?
+* estimate of 1% death rate 
+* estimate of time taken for lockdown to have an effect (I've said 14-21 days). Note that `death_date_7_days` shows the date if it takes 21 days to have an impact. 
+* estimate of daily growth rates for minimal social distancing (1.125) and lockdown (1.0625)
