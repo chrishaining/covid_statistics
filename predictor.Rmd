@@ -70,7 +70,7 @@ predictions
 
 ```{r}
 #add actual number
-empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
 predictions <- predictions %>% mutate('Actual Deaths'=empty)
 predictions
 ```
@@ -89,12 +89,12 @@ Actual Deaths: this is the number confirmed by the World Health Organization, ba
 Note that the number of deaths registered on a given date may not accurately reflect the number who died. There could be backlogs in the registration system. However, I am assuming that this inaccuracy evens out in the long run.  
 ```{r}
 #add data to actual deaths
-predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606)))
+predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11","2020-04-12"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606, 4303, 4934, 5373, 6159, 7097,7978,8958,9875)))
 
 predictions
 
 ```
-Note that the figures here may seem to be a day behind the figures in the media. This is because the figures in the table are based on the WHO's situation reports, which are produced the day after the UK announces its figures. For instance, where I give predictions for 2020-03-31 of 1413-1695.6, the UK government announced the relevant figure on 2020-03-30. Even these figures are delayed: the figure that the UK announced on 2020-03-30 reflected the situation at 0900 on 2020-03-29.
+Note that the figures here may seem to be a day or two behind the figures in the media. This is because the figures in the table are based on the WHO's situation reports, which are produced the day after the UK announces its figures. For instance, where I give predictions for 2020-03-31 of 1413-1695.6, the UK government announced the relevant figure on 2020-03-30. Even these figures are delayed: the figure that the UK announced on 2020-03-30 reflected the situation at 0900 on 2020-03-29. It may also be that the WHO are using slightly different figures from the UK government (possibly due to a different methodology). However, the numbers are similar enough for my purposes.
 [Department of Health and Social Care](https://twitter.com/DHSCgovuk/status/1244651132879806471?ref_src=twsrc%5Etfw%7Ctwcamp%5Etweetembed%7Ctwterm%5E1244651132879806471&ref_url=https%3A%2F%2Fwww.theguardian.com%2Fpolitics%2Flive%2F2020%2Fmar%2F30%2Fuk-coronavirus-live-rate-infection-lockdown-covid-19)
 
 ```{r}
@@ -119,6 +119,7 @@ predictions <- predictions %>% mutate(new_deaths=replace(as.numeric(new_deaths),
 predictions
 ```
 
+
 ```{r}
 library(lubridate)
 #average growth rate (cumulative, from 2020-03-28 to most recent stats)
@@ -128,6 +129,14 @@ cumulative <- excludes_first_row %>% filter(date < today())
 
 cumulative_mean_growth_rate <- cumulative %>% summarize(mean(rate))
 str_glue("Cumulative mean growth rate starting 28th March: {cumulative_mean_growth_rate}")
+# cumulative growth rate to 05/04/2020 (i.e. measured on 06/04) = 1.24444444444444 
+# cumulative growth rate to 06/04/2020 = 1.23
+# cumulative growth rate to 07/04/2020 = 1.21818181818182
+# cumulative growth rate to 08/04/2020 = 1.20833333333333
+# cumulative growth rate to 09/04/2020 = 1.20769230769231
+# cumulative growth rate to 10/04/2020 = 1.2
+# cumulative growth rate to 11/04/2020 = 1.19333333333333
+# cumulative growth rate to 12/04/2020 = 1.1875
 
 #average growth rate (last five days) I'd like to automate this, but for now I will make a new variable every day
 #over time, I expect to see the mean for the last five days fall. 
@@ -138,13 +147,45 @@ str_glue("Last five days mean growth rate (28th March-2nd April): {last_five_day
 
 five_days_to_third_april <- last_five_days %>% filter(date > "2020-03-29")
 five_days_to_third_april_mean_growth_rate <- five_days_to_third_april %>% summarize(mean(rate))
-
 str_glue("Last five days mean growth rate (29th March-3rd April): {five_days_to_third_april_mean_growth_rate}")
 
-#five_days_to_fourth_april <- last_five_days %>% filter(date > "2020-03-30")
-#five_days_to_fourth_april_mean_growth_rate <- five_days_to_fourth_april %>% summarize(mean(rate))
+five_days_to_fourth_april <- last_five_days %>% filter(date > "2020-03-30")
+five_days_to_fourth_april_mean_growth_rate <- five_days_to_fourth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (30th March-4th April): {five_days_to_fourth_april_mean_growth_rate}")
 
-#str_glue("Last five days mean growth rate (30th March-4th April): {five_days_to_fourth_april_mean_growth_rate}")
+five_days_to_fifth_april <- last_five_days %>% filter(date > "2020-03-31")
+five_days_to_fifth_april_mean_growth_rate <- five_days_to_fifth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (31st March-5th April): {five_days_to_fifth_april_mean_growth_rate}")
+
+five_days_to_sixth_april <- last_five_days %>% filter(date > "2020-04-01")
+five_days_to_sixth_april_mean_growth_rate <- five_days_to_sixth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (1st-6th April): {five_days_to_sixth_april_mean_growth_rate}")
+
+five_days_to_seventh_april <- last_five_days %>% filter(date > "2020-04-02")
+five_days_to_seventh_april_mean_growth_rate <- five_days_to_seventh_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (2nd-7th April): {five_days_to_seventh_april_mean_growth_rate}")
+
+
+five_days_to_eighth_april <- last_five_days %>% filter(date > "2020-04-03")
+five_days_to_eighth_april_mean_growth_rate <- five_days_to_eighth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (3rd-8th April): {five_days_to_eighth_april_mean_growth_rate}")
+
+
+five_days_to_ninth_april <- last_five_days %>% filter(date > "2020-04-04")
+five_days_to_ninth_april_mean_growth_rate <- five_days_to_ninth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (4th-9th April): {five_days_to_ninth_april_mean_growth_rate}")
+
+five_days_to_tenth_april <- last_five_days %>% filter(date > "2020-04-05")
+five_days_to_tenth_april_mean_growth_rate <- five_days_to_tenth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (5th-10th April): {five_days_to_tenth_april_mean_growth_rate}")
+
+five_days_to_eleventh_april <- last_five_days %>% filter(date > "2020-04-06")
+five_days_to_eleventh_april_mean_growth_rate <- five_days_to_eleventh_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (6th-11th April): {five_days_to_eleventh_april_mean_growth_rate}")
+
+five_days_to_twelfth_april <- last_five_days %>% filter(date > "2020-04-07")
+five_days_to_twelfth_april_mean_growth_rate <- five_days_to_twelfth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (7th-12th April): {five_days_to_twelfth_april_mean_growth_rate}")
 
 ```
 
@@ -161,3 +202,5 @@ known_cases <- known_cases %>% mutate(rate=format(rate, digits = 2))
 known_cases
 ```
 
+Also check out predictions from the Institute for Health Metrics and Evaluation (IHME) at the University of Washington’s School of Medicine. They estimate that UK deaths will be in the range 55-79.9K. They also give the number of ICU beds available to Covid-19 patients as only 799, which seems really low compared to what the UK government says (they're talking 10K-18K). Has someone made an error, or is this the difference between total ICU beds and ICU beds available to Covid patients?
+[See their data](https://covid19.healthdata.org/united-kingdom)

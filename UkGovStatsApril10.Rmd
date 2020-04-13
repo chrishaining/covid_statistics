@@ -1,0 +1,46 @@
+---
+title: "Datasets from UK government "
+output: html_notebook
+---
+# Datasets to accompany coronavirus press conference: 10 April 2020
+
+source:
+UK Government website: 
+[Slides and datasets to accompany coronavirus press conference: 10 April 2020](https://www.gov.uk/government/publications/slides-and-datasets-to-accompany-coronavirus-press-conference-10-april-2020)
+
+## import the readxl package and the excel file
+```{r}
+library(readxl)
+ten_april_data <- lapply(excel_sheets('COVID-19_Press_Conference_Data_-_10_04_2020.xlsx'),read_excel,path='COVID-19_Press_Conference_Data_-_10_04_2020.xlsx')
+
+ten_april_data
+```
+
+## inspect the structure of the excel file
+```{r}
+str(ten_april_data)
+
+```
+
+## The structure shows this is a list of 5 elements. Let's look at one of the elements
+```{r}
+ten_april_data[5]
+```
+
+## rename and manipulate one of the elements
+```{r}
+deaths_comparison <- ten_april_data[5]
+deaths_comparison
+```
+
+## clean the table so that it can be used as a dataframe
+```{r}
+class(deaths_comparison)
+df <- data.frame(deaths_comparison)
+class(df)
+```
+
+
+
+
+
