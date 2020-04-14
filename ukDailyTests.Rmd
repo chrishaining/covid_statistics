@@ -1,0 +1,45 @@
+---
+title: "UK Daily Testing"
+output: html_notebook
+---
+  
+On 6th April 2020 the Secretary of State for Health and Social Care outlined a plan to increase the number of Covid-19 tests conducted in England.
+
+[Details of the plan](
+https://www.gov.uk/government/publications/coronavirus-covid-19-scaling-up-testing-programmes/coronavirus-covid-19-scaling-up-our-testing-programmes)
+
+The aim of the plan is to increase the number of tests to 100,000 per day, which is a large increase given that at the time the plan was announced, there were around 10,000 tests a day or fewer.
+
+The plan covers England, rather than the whole of the UK. This could lead to confusion, as in some cases in the media figures have been given for the whole of the UK, or for England and Wales, or for England, Wales and Scotland. This notebook uses the data published on the UK government page [Guidance: Number of coronavirus (COVID-19) cases and risk in the UK](https://www.gov.uk/guidance/coronavirus-covid-19-information-for-the-public), which as of 12th April 2020 gave figures for the UK minus Northern Ireland. This means that the figures issued by the government - and used in this notebook - should be higher than the figures for England alone. Hence, even if the figures here show more than 100,000 tests a day, it is still possible that the target is not being met. For instance, if the figures here show exactly 100,000 a day, it is likely that around 10% of the tests are done in Scotland and a further 5% or so in Wales. This would mean the number of tests in England would be 85,000 - under the target set out on 6th April.
+
+## Purpose of this notebook
+To log the daily figures published by the government, to see the progress made towards the target of 100,000 tests a day.
+
+The datasets refer to pillars:
+* Pillar 1 - NHS swab testing for those with a medical need and, where possible, the most critical key workers
+* Pillar 2 - Mass swab testing for critical key workers in the NHS, social care and other sectors
+* Pillar 3 - Antibody testing (not available at time of writing)
+* Pillar 4 - Surveillance testing of the general population
+
+See the aforementioned government websites for further details of what the pillars mean.
+
+
+* The datasets distinguish between _people tested_ and _tests_. This is because a person may be tested multiple times. The government target refers to _tests_ rather than _people tested_.
+* The datasets begin on 12th April 2020. The reason I do not have data from before that is because I didn't start this project until 13th April, and I could not find reliable data for prior to 12th April. 
+* 'Serology results for samples tested on 12 April will not be authorised until 14 April due to the Bank Holiday. Combined activity figures for 12 and 13 April will be reported on 14 April.'[Guidance: Number of coronavirus (COVID-19) cases and risk in the UK](https://www.gov.uk/guidance/coronavirus-covid-19-information-for-the-public). This presents a problem for data analysis. My solution is to include both days, using the mean average (mean=14_april_value/2)
+
+
+## Importing and inspecting the data
+```{r}
+library(readr)
+library(dplyr)
+figures <- read.csv('uk_daily_tests.csv')
+figures
+```
+
+## Add total tests column 
+```{r}
+figures <- figures %>% mutate(`Total Tests`=`Pillar.1.Tests` + `Pillar.2.Tests` + `Pillar.4.Tests`)
+figures
+```
+

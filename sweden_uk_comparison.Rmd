@@ -3,6 +3,13 @@ title: "Comparison of UK and Sweden"
 output: html_notebook
 ---
 
+The reason I am comparing the UK and Sweden is that both countries initially took a minimalist approach to tackling the coronavirus. That is, they stopped short of lockdown. However, on 23rd March the UK switched strategy and went into lockdown. Sweden, by contrast, continued with their minimalist approach. So, I am interested to find out whether these different approaches resulted in a statistically significant difference in the number of deaths caused by Covid-19.
+
+## Hypothesis
+The UK death toll per 100,000 people is lower than in Sweden.
+
+## Null hypothesis
+uk_death_rate >- sweden_death_rate
  
 
 ```{r}
