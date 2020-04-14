@@ -44,15 +44,15 @@ nine_april <- predictor(eight_april)
 ten_april <- predictor(nine_april)
 eleven_april <- predictor(ten_april)
 twelve_april <- predictor(eleven_april)
-
+thirteen_april <- predictor(twelve_april)
 #
 
 ```
 
 ```{r}
 
-date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
-predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april, six_april, seven_april, eight_april, nine_april, ten_april, eleven_april, twelve_april)
+date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13"))
+predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april, six_april, seven_april, eight_april, nine_april, ten_april, eleven_april, twelve_april, thirteen_april)
 predictions <- data.frame(date, predicted_deaths)
 
 #predictions <- predictions %>% mutate(predicted_deaths=replace(as.numeric(predicted_deaths), date=="2020-03-27", 578))
@@ -70,7 +70,7 @@ predictions
 
 ```{r}
 #add actual number
-empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA")
 predictions <- predictions %>% mutate('Actual Deaths'=empty)
 predictions
 ```
@@ -89,7 +89,7 @@ Actual Deaths: this is the number confirmed by the World Health Organization, ba
 Note that the number of deaths registered on a given date may not accurately reflect the number who died. There could be backlogs in the registration system. However, I am assuming that this inaccuracy evens out in the long run.  
 ```{r}
 #add data to actual deaths
-predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11","2020-04-12"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606, 4303, 4934, 5373, 6159, 7097,7978,8958,9875)))
+predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11","2020-04-12", "2020-04-13"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606, 4303, 4934, 5373, 6159, 7097,7978,8958,9875,10612)))
 
 predictions
 
@@ -113,7 +113,7 @@ predictions <- predictions %>% mutate(new_deaths=c(deaths[1], diff(deaths)))
 #predictions <- predictions %>% mutate(yesterday=c(deaths[1], diff(deaths)))
 
 predictions <- predictions %>% mutate(rate=1+new_deaths/lag(deaths))
-predictions <- predictions %>% mutate(rate=format(rate, digits = 2))
+predictions <- predictions %>% mutate(rate=format(rate, digits = 3))
 #predictions <- predictions %>% mutate(rate=c(1+new_deaths[1]/deaths))
 predictions <- predictions %>% mutate(new_deaths=replace(as.numeric(new_deaths), date=="2020-03-27", NA))
 predictions
@@ -137,6 +137,7 @@ str_glue("Cumulative mean growth rate starting 28th March: {cumulative_mean_grow
 # cumulative growth rate to 10/04/2020 = 1.2
 # cumulative growth rate to 11/04/2020 = 1.19333333333333
 # cumulative growth rate to 12/04/2020 = 1.1875
+# cumulative growth rate to 12/04/2020 = 1.18235294117647
 
 #average growth rate (last five days) I'd like to automate this, but for now I will make a new variable every day
 #over time, I expect to see the mean for the last five days fall. 
@@ -187,6 +188,10 @@ five_days_to_twelfth_april <- last_five_days %>% filter(date > "2020-04-07")
 five_days_to_twelfth_april_mean_growth_rate <- five_days_to_twelfth_april %>% summarize(mean(rate))
 str_glue("Last five days mean growth rate (7th-12th April): {five_days_to_twelfth_april_mean_growth_rate}")
 
+five_days_to_thirteenth_april <- last_five_days %>% filter(date > "2020-04-08")
+five_days_to_thirteenth_april_mean_growth_rate <- five_days_to_thirteenth_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (8th-13th April): {five_days_to_thirteenth_april_mean_growth_rate}")
+
 ```
 
 
@@ -197,7 +202,7 @@ known_cases <- read.csv('covid_19_deaths.csv')
 known_cases <- known_cases %>% select(-Global.Deaths)
 known_cases <- known_cases %>% mutate(new_deaths=c(UK.Deaths[1], diff(UK.Deaths)))
 known_cases <- known_cases %>% mutate(rate=1+new_deaths/lag(UK.Deaths))
-known_cases <- known_cases %>% mutate(rate=format(rate, digits = 2))
+known_cases <- known_cases %>% mutate(rate=format(rate, digits = 3))
 
 known_cases
 ```
