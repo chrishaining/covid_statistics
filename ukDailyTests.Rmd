@@ -62,9 +62,14 @@ p4Tests
 ```{r}
 library(ggplot2)
 library(ggthemes)
+library(plotly)
 
 totalTestBar <- ggplot(figures, aes(x=Date, y=`Total Tests`)) + geom_bar(stat='identity', fill='#87189D') + ggtitle('Number of Tests Conducted per Day (all Pillars') + theme_clean()
 totalTestBar
+
+# make the plot interactive using plotly
+ggplotly(totalTestBar)
+
 ```
 
 

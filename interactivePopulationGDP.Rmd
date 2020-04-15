@@ -1,0 +1,43 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+ 
+
+```{r}
+library(plotly)
+library(ggplot2)
+library(readr)
+library(dplyr)
+
+df <- read.csv('european_pop_gdp_per_capita.csv')
+head(df)
+```
+
+## 
+```{r, fig.width= 9.5, fig.height=6}
+
+ 
+plt <- ggplot(df, aes(x=population, y=gdp_per_capita)) + geom_point(aes(color=Country)) 
+
+plt
+```
+
+ 
+```{r, fig.width= 11, fig.height=6}
+
+pointsToLabel <- c("Austria", "Belgium", "Bulgaria", "Estonia", "France", "Germany", "Italy", "Netherlands", "Spain", "United Kingdom")
+
+#plt2 <- plt + geom_text(aes(label = Country), color = "gray20", fontface='bold', data = subset(df, Country %in% pointsToLabel),check_overlap = TRUE)
+plt2 <- plt + geom_text(aes(label = Country), color = "gray20", fontface='bold',check_overlap = TRUE)
+plt2
+
+```
+
+```{r, fig.width= 11, fig.height=6}
+
+
+plt3 <- plt2 + scale_x_continuous(name='Population', limits = c(0,90000000))
+ggplotly(plt3)
+```
+Ok, so this looks pretty scrunched up, and it's not a particularly useful graph (as I never really thought there was a relationship between population and GDP per capita). But it let me practise using some ggplot2 and plotly features, so it was a useful learning experience.
