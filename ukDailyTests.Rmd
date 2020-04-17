@@ -72,4 +72,9 @@ ggplotly(totalTestBar)
 
 ```
 
+## average number of total tests over the last X days
+I'm starting to calculate this on 17th April, at which time I do not have enough datapoints for a full week. Plus, I am not comfortable using data from the Easter weekend (due to the uncertainty over how many tests were actually conducted) So, I will start with the past two days. Then, as more data become available, I will increase the number of days until there are enough data for 7 days.
+```{r}
+
+```
 
