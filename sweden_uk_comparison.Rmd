@@ -87,30 +87,7 @@ str_glue("When comparing median death rates, the UK death rate is {median_compar
 ```
 
 
-## Plot the comparison 
-```{r}
-library(ggplot2)
-library(tidyr)
-install.packages("tidyverse")
-library("tidyverse")
-library(scales)
-df <- uk_sweden %>% gather(key = "variable", value = "value", -Date)
-#head(df)
-ggplot(df, aes(x = Date, y = value)) + 
-  geom_line(aes(color = variable, linetype = variable)) + 
-  scale_color_manual(values = c("darkred", "steelblue"))
 
-#comparison_line <- ggplot(df, aes(x=Date)) + geom_line(aes(y=sweden_death_rate), color="blue") + geom_line(aes(y=uk_death_rate), color='red') + geom_text(aes(x=as.Date("2020-03-01"), y=0.00000000000, label="Sweden")) + geom_text(aes(x=as.Date("2020-03-25"), y=0.0022, label="UK"))
-#comparison_line
-
-#psavert_label <- "PSAVERT"
-#uempmed_label <- "UEMPMED"
-#ggplot(economics, aes(x=date)) + 
-#  geom_line(aes(y = psavert), color = "darkred") +
-#geom_line(aes(y = uempmed), color="steelblue", linetype="twodash") + geom_text(aes(x=as.Date("1968-10-01"), y = 15, label=psavert_label)) + #geom_text(aes(x=as.Date("2013-10-01"), y = 25, label=uempmed_label)) + labs(title="US Personal Savings Rate and Median Weeks Unemployed, #1967-2015")
-
-
-```
 
 
 
