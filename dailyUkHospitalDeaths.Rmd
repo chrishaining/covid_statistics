@@ -1,0 +1,44 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+ 
+```{r}
+library(readr)
+library(ggplot2)
+library(plotly)
+library(dplyr)
+
+df <- read.csv('covid_19_deaths.csv')
+head(df)
+```
+
+```{r}
+df <- df %>% mutate(`daily death toll`=c(UK.Deaths[1], diff(UK.Deaths)))
+head(df)
+tail(df)
+```
+
+
+```{r}
+dailyPlot <- ggplot(df, aes(x=Date, y=`daily death toll`)) + geom_bar(stat = 'identity', fill='brown', alpha=0.7) + ggtitle('Daily UK Death Toll in Hospitals') 
+dailyPlot <- dailyPlot + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplotly(dailyPlot)
+
+```
+ 
+ 
+ 
+```{r}
+df2 <- df %>% mutate(Rate=100*(`daily death toll`/lag(UK.Deaths)))
+tail(df2)
+                    
+```
+ 
+```{r}
+percentPlot <- ggplot(df2, aes(x=Date, y=Rate)) + geom_bar(stat = 'identity', fill='blue', alpha=0.7) + ggtitle('Daily UK Growth Rate (Hospitals)') + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplotly(percentPlot)
+```
+The values at the beginning of March through to 20th March are not very useful, as there were days with no/few deaths and this has led to wild fluctuations in the values. However, from 20th March onwards, we start to see more consistency. There does seem to be a sustained decline in the growth rate, with the values at the end of April much lower than at the end of March.  
+ 
