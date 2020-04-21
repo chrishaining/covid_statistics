@@ -241,7 +241,7 @@ In what ways could these estimates and predictions go wrong? Or, what parts of t
 * update 13th April 2020 - the latest figures from the [Office for National Statistics](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/bulletins/deathsregisteredweeklyinenglandandwalesprovisional/weekending3april2020) suggest that - in England and Wales, at least - deaths outside hospitals account for around 10% of all Covid-19-related deaths. Whilst I do not have the non-hospital figures for Scotland or Northern Ireland, I have no reason to believe they would be significantly different from England and Wales. So, I will assume that 10% of all Covid-19-related deaths in the UK happen outside of hospitals. This has an impact on how one reads the figures in my project. The figures I use in this project are from the WHO, which counts hospital deaths only. Therefore, for any given date, the number of deaths in my datasets should be considered to be only 90% of the true total. For instance, where my datasets state that the death toll on 11th April was 8958, we can estimate that the true death toll was actually around 10,000.
 * update 17th April - the figures are 6-7 days out.
 
-```{r}
+```{r, fig.width= 9.5, fig.height=6}
 library(ggplot2)
 library(scales)
 infectionsComparisonLine <- ggplot(compared_infections_and_deaths_dates, aes(x=date)) + geom_line(aes(y=estimated_infections_no_action), col = "steelblue") + geom_line(aes(y=estimated_infections_lockdown), col="darkred") + scale_y_continuous(labels=label_comma()) + geom_text(aes(x=as.Date("2020-04-13"), y = 50000000, label="No action")) + geom_text(x=as.Date("2020-04-13"), y = 5000000, label="Lockdown") + labs(title="Predicted infections (lockdown versus no action)", x='Date', y='Predicted Infections') + theme_classic()
@@ -249,7 +249,7 @@ infectionsComparisonLine
  
 ```
 
-```{r}
+```{r, fig.width= 9.5, fig.height=6}
 deathsComparisonLine <- ggplot(compared_infections_and_deaths_dates, aes(x=death_date_7_days)) + geom_line(aes(y=estimated_deaths_no_action), col = "steelblue") + geom_line(aes(y=estimated_deaths_lockdown), col="darkred") + scale_y_continuous(labels=label_comma()) + geom_text(aes(x=as.Date("2020-04-21"), y = 500000, label="No action")) + geom_text(x=as.Date("2020-04-21"), y = 50000, label="Lockdown") + labs(title="Predicted Deaths (lockdown versus no action)", subtitle="estimates that it takes 3 weeks for measures to impact deaths", x='Date', y='Predicted Deaths') + theme_classic()
 deathsComparisonLine
 ```
@@ -257,5 +257,36 @@ deathsComparisonLine
 ```{r}
 deathsComparisonLine <- ggplot(compared_infections_and_deaths_dates, aes(x=death_date_14_days)) + geom_line(aes(y=estimated_deaths_no_action), col = "steelblue") + geom_line(aes(y=estimated_deaths_lockdown), col="darkred") + scale_y_continuous(labels=label_comma()) + geom_text(aes(x=as.Date("2020-04-28"), y = 500000, label="No action")) + geom_text(x=as.Date("2020-04-28"), y = 50000, label="Lockdown") + labs(title="Predicted Deaths (lockdown versus no action)", subtitle="estimates that it takes 2 weeks for measures to impact deaths", x='Date', y='Predicted Deaths') + theme_classic()
 deathsComparisonLine
+```
+
+```{r, fig.width= 9.5, fig.height=6}
+
+library(plotly)
+casesDeaths <- ggplot(compared_infections_and_deaths_dates, aes(x=estimated_infections_lockdown, y=estimated_deaths_lockdown)) + geom_point()
+casesDeaths
+interactive <- ggplotly(casesDeaths)
+
+# fig <- interactive %>%
+#   plot_ly(
+#     x = ~x,
+#     y = ~y,
+#     frame = ~f,
+#     type = 'scatter',
+#     mode = 'markers',
+#     showlegend = F
+#   )
+fig <- compared_infections_and_deaths_dates %>% plot_ly(x=~estimated_infections_lockdown, y=~estimated_deaths_lockdown, frame = ~date, type = 'scatter', mode='markers')
+
+
+# fig <- fig %>% layout(
+#     xaxis = list(
+#       type = "log"
+#     )
+#   )
+ 
+
+fig2 <- fig %>% animation_slider(currentvalue=list(prefix = "Date", font = list(color='red')))
+fig2
+
 ```
 
