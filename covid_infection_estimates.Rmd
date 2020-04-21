@@ -83,12 +83,23 @@ tenApril <- predictor(nineApril)
 elevenApril <- predictor(tenApril)
 twelveApril <- predictor(elevenApril)
 
+thirteenApril <- predictor(twelveApril)
+fourteenApril <- predictor(thirteenApril)
+fifteenApril <- predictor(fourteenApril)
+sixteenApril <- predictor(fifteenApril)
+seventeenApril <- predictor(sixteenApril)
+eighteenApril <- predictor(seventeenApril)
+nineteenApril <- predictor(eighteenApril)
+twentyApril <- predictor(nineteenApril)
+twentyoneApril <- predictor(twentyApril)
+twentytwoApril <- predictor(twentyoneApril)
+twentythreeApril <- predictor(twentytwoApril)
 
 
 
 # create vectors to populate the columns
-date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
-estimated_infections_no_action <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril)
+date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21", "2020-04-22", "2020-04-23"))
+estimated_infections_no_action <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril, thirteenApril, fourteenApril, fifteenApril, sixteenApril, seventeenApril, eighteenApril, nineteenApril, twentyApril, twentyoneApril, twentytwoApril, twentythreeApril)
 
 # create the data frame
 predicted_infections <- data.frame(date, estimated_infections_no_action)
@@ -138,12 +149,22 @@ tenApril <- lockdown_predictor(nineApril)
 elevenApril <- lockdown_predictor(tenApril)
 twelveApril <- lockdown_predictor(elevenApril)
 
-
+thirteen_April <- lockdown_predictor(twelveApril)
+fourteen_April <- lockdown_predictor(thirteen_April)
+fifteen_April <- lockdown_predictor(fourteen_April)
+sixteen_April <- lockdown_predictor(fifteen_April)
+seventeen_April <- lockdown_predictor(sixteen_April)
+eighteen_April <- lockdown_predictor(seventeen_April)
+nineteen_April <- lockdown_predictor(eighteen_April)
+twenty_April <- lockdown_predictor(nineteen_April)
+twentyone_April <- lockdown_predictor(twenty_April)
+twentytwo_April <- lockdown_predictor(twentyone_April)
+twentythree_April <- lockdown_predictor(twentytwo_April)
 
 
 # create vectors to populate the columns
-date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12"))
-estimated_infections_lockdown <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril)
+date <- as.Date(c("2020-03-22", "2020-03-23", "2020-03-24", "2020-03-25", '2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21", "2020-04-22", "2020-04-23"))
+estimated_infections_lockdown <- c(twentyTwoMarch, twentyThreeMarch, twentyFourMarch, twentyFiveMarch,twentySixMarch, twentySevenMarch, twentyEightMarch, twentyNineMarch, thirtyMarch, thirtyOneMarch, oneApril, twoApril, threeApril, fourApril, fiveApril, sixApril, sevenApril, eightApril, nineApril, tenApril, elevenApril, twelveApril, thirteen_April, fourteen_April, fifteen_April, sixteen_April, seventeen_April, eighteen_April, nineteen_April, twenty_April, twentyone_April, twentytwo_April, twentythree_April)
 
 # create the data frame
 lockdown_infection_rates <- data.frame(date, estimated_infections_lockdown)
@@ -192,10 +213,10 @@ compared_infections_and_deaths_dates <- compared_infections_and_deaths %>% mutat
 compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(death_date_7_days=as.Date(date + days(7)))
 
 # add a column to review the results on a daily basis.
-assess <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+assess <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
 compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(fourteen_day_assessment = assess)
 
-compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(fourteen_day_assessment=replace(fourteen_day_assessment, death_date_14_days==c("2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19"), c("As of 2020-04-05, the actual death toll was 4313", "As of 2020-04-06, the actual death toll was 4934", "As of 2020-04-07, the actual death toll was 5373", "As of 2020-04-08, the actual death toll was 6159", "As of 2020-04-09, the actual death toll was 7097", "As of 2020-04-10, the actual death toll was 7978","As of 2020-04-11, the actual death toll was 8958","As of 2020-04-12, the actual death toll was 9875", "As of 2020-04-13, the actual death toll was 10612", "As of 2020-04-14, the actual death toll was 11329", "As of 2020-04-15, the actual death toll was 12107", "As of 2020-04-16, the actual death toll was 12868", "As of 2020-04-17, the actual death toll was 13729", "As of 2020-04-18, the actual death toll was 14576", "As of 2020-04-19, the actual death toll was 15464")))
+compared_infections_and_deaths_dates <- compared_infections_and_deaths_dates %>% mutate(fourteen_day_assessment=replace(fourteen_day_assessment, death_date_14_days==c("2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20"), c("As of 2020-04-05, the actual death toll was 4313", "As of 2020-04-06, the actual death toll was 4934", "As of 2020-04-07, the actual death toll was 5373", "As of 2020-04-08, the actual death toll was 6159", "As of 2020-04-09, the actual death toll was 7097", "As of 2020-04-10, the actual death toll was 7978","As of 2020-04-11, the actual death toll was 8958","As of 2020-04-12, the actual death toll was 9875", "As of 2020-04-13, the actual death toll was 10612", "As of 2020-04-14, the actual death toll was 11329", "As of 2020-04-15, the actual death toll was 12107", "As of 2020-04-16, the actual death toll was 12868", "As of 2020-04-17, the actual death toll was 13729", "As of 2020-04-18, the actual death toll was 14576", "As of 2020-04-19, the actual death toll was 15464", "As of 2020-04-20, the actual death toll was 16060")))
 
 #reorder the columns
 new_order <- c("date", "estimated_infections_no_action", "estimated_infections_lockdown", "estimated_deaths_no_action",  "estimated_deaths_lockdown", "death_date_14_days", "fourteen_day_assessment", "death_date_7_days")
