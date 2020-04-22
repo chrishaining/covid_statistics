@@ -1,0 +1,39 @@
+---
+title: "5 Tests for Easing Lockdown"
+output: html_notebook
+---
+
+In mid-April the UK government announced that it had five conditions that would need to be met in order to begin easing the lockdown restrictions:
+1. The NHS has capacity to treat covid-19 patients
+2. The daily death rate shows a 'sustained and consistent' fall
+3. The rate of infection decreases to manageable levels
+4. There is sufficient supply of PPE and testing
+5. The government is confident that any adjustments would not risk a second peak
+
+                Source: [BBC article](https://www.bbc.co.uk/news/health-52374513)
+
+This notebook monitors the daily progress of the virus and the UK's preparedness and asks whether the five conditions have been met. 
+
+## Methodology
+The first step is to create a csv file with daily data on relevant metrics, _where this can be quantified_: 
+  * For condition 1, we need a measure of NHS capacity, so I will use available beds and ICU beds, plus hospitalizations and admissions to ICU. However, there is a danger: hospitalization and ICU admission figures may not tell us about people who have been refused a bed/ICU care due to lack of an available bed/ICU care. __I will research the exact definitions of the data__. Data type: character (change to dbl once I have the data)
+  * For condition 2, there is a numeric value, `Daily death rate`. A value of 1.30 would indicate that the death rate is 30%. 
+  * For condition 3, I don't know of a reliable metric. We need sample testing in the community to estimate the `R0`, but this is not available. Until there is better data, I will use free text for this. Data type: character. 
+  * For Condition 4, I will summarise this using free text regarding PPE. For  testing, I will give the total daily testing capacity and the total daily tests completed. Data type: character and int.
+  * Condition 5 has no obvious metric, and will be a qualitative assessment that may be based on the other conditions plus information from other sources (with essentially no limits on the sources or scope). Data type: character.
+    * I will add a final column(s) that uses the data for all the conditions to assess whether the lockdown can be met.Data type: character/factor.
+
+## Problems I have encountered
+The following metrics are insufficiently defined:
+* Condition 2: for how long does a fall have to be sustained? Is there a specific number for the death rate to hit?
+* Condition 3: what is a manageable level of infection? Is this the `R0` number? How will we be able to know when we have reached the level?
+* Condition 4: what is a sufficient level of testing? Is the metric only numeric, or does it cover the type of testing? What about contact tracing?
+
+
+## create a dataframe
+```{r}
+library(readr)
+df <- read.csv('tests_for_lockdown.csv')
+df
+```
+
