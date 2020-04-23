@@ -53,14 +53,15 @@ eighteen_april <- predictor(seventeen_april)
 nineteen_april <- predictor(eighteen_april)
 twenty_april <- predictor(nineteen_april)
 twentyone_april <- predictor(twenty_april)
+twentytwo_april <- predictor(twentyone_april)
 #
 
 ```
 
 ```{r}
 
-date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21"))
-predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april, six_april, seven_april, eight_april, nine_april, ten_april, eleven_april, twelve_april, thirteen_april, fourteen_april, fifteen_april, sixteen_april, seventeen_april, eighteen_april, nineteen_april, twenty_april, twentyone_april)
+date <- as.Date(c('2020-03-26','2020-03-27', '2020-03-28', '2020-03-29', '2020-03-30', '2020-03-31', "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11", "2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21", "2020-04-22"))
+predicted_deaths <- c(twenty_six_march, twenty_seven_march, twenty_eight_march, twenty_nine_march, thirty_march, thirty_one_march, one_april, two_april, three_april, four_april, five_april, six_april, seven_april, eight_april, nine_april, ten_april, eleven_april, twelve_april, thirteen_april, fourteen_april, fifteen_april, sixteen_april, seventeen_april, eighteen_april, nineteen_april, twenty_april, twentyone_april, twentytwo_april)
 predictions <- data.frame(date, predicted_deaths)
 
 #predictions <- predictions %>% mutate(predicted_deaths=replace(as.numeric(predicted_deaths), date=="2020-03-27", 578))
@@ -78,7 +79,7 @@ predictions
 
 ```{r}
 #add actual number
-empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
+empty <- c("NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA","NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA")
 predictions <- predictions %>% mutate('Actual Deaths'=empty)
 predictions
 ```
@@ -97,7 +98,7 @@ Actual Deaths: this is the number confirmed by the World Health Organization, ba
 Note that the number of deaths registered on a given date may not accurately reflect the number who died. There could be backlogs in the registration system. However, I am assuming that this inaccuracy evens out in the long run.  
 ```{r}
 #add data to actual deaths
-predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11","2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606, 4303, 4934, 5373, 6159, 7097,7978,8958,9875,10612,11329,12107,12868,13729,14576,15464, 16060,16509)))
+predictions <- predictions %>% mutate('Actual Deaths'=replace(as.numeric('Actual Deaths'), date==c("2020-03-27", "2020-03-28", "2020-03-29", "2020-03-30", "2020-03-31", "2020-04-01", "2020-04-02", "2020-04-03", "2020-04-04", "2020-04-05", "2020-04-06", "2020-04-07", "2020-04-08", "2020-04-09", "2020-04-10", "2020-04-11","2020-04-12", "2020-04-13", "2020-04-14", "2020-04-15", "2020-04-16", "2020-04-17", "2020-04-18", "2020-04-19", "2020-04-20", "2020-04-21", "2020-04-22"), c(578, 759, 1019, 1228, 1408, 1789, 2532, 2921, 3606, 4303, 4934, 5373, 6159, 7097,7978,8958,9875,10612,11329,12107,12868,13729,14576,15464, 16060,16509,17337)))
 
 predictions
 
@@ -154,6 +155,7 @@ str_glue("Cumulative mean growth rate starting 28th March: {cumulative_mean_grow
 # cumulative growth rate to 19/04/2020 = 1.15695652173913
 # cumulative growth rate to 19/04/2020 = 1.15208333333333
 # cumulative growth rate to 19/04/2020 = 1.1472
+# cumulative growth rate to 19/04/2020 = 1.14346153846154
 
 #average growth rate (last five days) I'd like to automate this, but for now I will make a new variable every day
 #over time, I expect to see the mean for the last five days fall. 
@@ -239,6 +241,10 @@ str_glue("Last five days mean growth rate (15th-20th April): {five_days_to_twent
 five_days_to_twentyone_april <- last_five_days %>% filter(date > "2020-04-16")
 five_days_to_twentyone_april_mean_growth_rate <- five_days_to_twentyone_april %>% summarize(mean(rate))
 str_glue("Last five days mean growth rate (16th-21st April): {five_days_to_twentyone_april_mean_growth_rate}")
+
+five_days_to_twentytwo_april <- last_five_days %>% filter(date > "2020-04-17")
+five_days_to_twentytwo_april_mean_growth_rate <- five_days_to_twentytwo_april %>% summarize(mean(rate))
+str_glue("Last five days mean growth rate (17th-22nd April): {five_days_to_twentytwo_april_mean_growth_rate}")
 ```
 
 
