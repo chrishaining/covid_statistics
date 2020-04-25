@@ -25,7 +25,7 @@ The first step is to create a csv file with daily data on relevant metrics, _whe
 
 ## Problems I have encountered
 The following metrics are insufficiently defined:
-* Condition 2: for how long does a fall have to be sustained? Is there a specific number for the death rate to hit?
+* Condition 2: for how long does a fall have to be sustained? Is there a specific number for the death rate to hit? I've focused purely on rate, but it might be more useful to use the actual death toll. The rate itself doesn't mean much.
 * Condition 3: what is a manageable level of infection? Is this the `R0` number? How will we be able to know when we have reached the level?
 * Condition 4: what is a sufficient level of testing? Is the metric only numeric, or does it cover the type of testing? What about contact tracing?
 
